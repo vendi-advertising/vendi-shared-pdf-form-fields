@@ -1,0 +1,15 @@
+{
+    "name": "vendi/vendi-pdf-fields",
+    "authors": [
+        {
+            "name": "Chris Haas",
+            "email": "chris@vendiadvertising.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {"Vendi\\Shared\\PDF\\Forms\\Fields\\": "Vendi/Shared/PDF/Forms/Fields"}
+    }
+}
