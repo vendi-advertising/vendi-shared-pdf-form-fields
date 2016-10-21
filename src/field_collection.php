@@ -30,7 +30,7 @@ class field_collection implements \IteratorAggregate
 
     public function add_string_field( string $field_name, string $field_value = null ) : field_collection
     {
-        return $this->add_field( $field_name, new string_field( $field_name, $primary_applicant->first_name ) );
+        return $this->add_field( $field_name, new string_field( $field_name, $field_value ) );
     }
 
     public function add_date_field( string $field_name_prefix, string $year_label, string $month_label, string $day_label, \DateTime $field_value = null ) : field_collection
