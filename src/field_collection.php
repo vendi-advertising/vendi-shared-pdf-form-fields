@@ -11,7 +11,7 @@ class field_collection implements \IteratorAggregate
         return new \ArrayIterator( $this->fields );
     }
 
-    private function add_field( string $field_name, field_base $field ) : field_collection
+    protected function add_field( string $field_name, field_base $field ) : field_collection
     {
         if( array_key_exists( $field_name, $this->fields ) )
         {
@@ -28,6 +28,11 @@ class field_collection implements \IteratorAggregate
         return array_key_exists( $field_name, $this->fields );
     }
 
+    public function add_int_field( string $field_name, int $field_value = null ) : field_collection
+    {
+        return $this->add_field( $field_name, new int_field( $field_name, $field_value ) );
+    }
+
     public function add_string_field( string $field_name, string $field_value = null ) : field_collection
     {
         return $this->add_field( $field_name, new string_field( $field_name, $field_value ) );
@@ -38,17 +43,18 @@ class field_collection implements \IteratorAggregate
         return $this->add_field( $field_name_prefix, new date_field( $field_name_prefix, $year_label, $month_label, $day_label, $field_value ) );
     }
 
-    public function add_checkbox_field( string $field_name, string $checked_export_value, bool $field_value = null ) : field_collection
+    public function add_checkbox_field( string $field_name, string $field_value = null ) : field_collection
     {
-        return $this->add_field( $field_name, new checkbox_field( $field_name, $checked_export_value, $field_value ) );
+        return $this->add_field( $field_name, new checkbox_field( $field_name, $field_value ) );
     }
 
     public function add_if_false_yes_checkbox_field( string $field_name, $field_value = null ) : field_collection
     {
         if( null === $field_value )
         {
-            //NOOP
+            $field_value = true;
         }
+
         elseif( is_bool( $field_value ) )
         {
             //NOOP
@@ -59,16 +65,16 @@ class field_collection implements \IteratorAggregate
         }
         else
         {
-            throw new \Exception( 'Invalid value supplied to add_yes_checkbox_field()' );
+            throw new \Exception( 'Invalid value supplied to add_if_false_yes_checkbox_field()' );
         }
-        return $this->add_field( $field_name, new checkbox_field( $field_name, 'Yes', $field_value ) );
+        return $this->add_field( $field_name, new checkbox_field( $field_name, $field_value ? 'No' : 'Yes' ) );
     }
 
     public function add_if_true_yes_checkbox_field( string $field_name, $field_value = null ) : field_collection
     {
         if( null === $field_value )
         {
-            //NOOP
+            $field_value = false;
         }
         elseif( is_bool( $field_value ) )
         {
@@ -80,9 +86,9 @@ class field_collection implements \IteratorAggregate
         }
         else
         {
-            throw new \Exception( 'Invalid value supplied to add_yes_checkbox_field()' );
+            throw new \Exception( 'Invalid value supplied to add_if_true_yes_checkbox_field()' );
         }
 
-        return $this->add_field( $field_name, new checkbox_field( $field_name, 'Yes', $field_value ) );
+        return $this->add_field( $field_name, new checkbox_field( $field_name, $field_value ? 'Yes' : 'No' ) );
     }
 }

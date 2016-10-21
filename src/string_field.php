@@ -8,9 +8,4 @@ class string_field extends field_base
     {
         parent::__construct( field_base::FIELD_TYPE_STRING, $field_name, $field_value );
     }
-
-    public function set_value( $field_value )
-    {
-        $this->field_value = $field_value;
-    }
 }
